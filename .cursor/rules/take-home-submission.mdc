@@ -1,0 +1,33 @@
+---
+description: Gekko Lab frontend take-home (TASK.md) — submission, docs, and tooling obligations
+alwaysApply: true
+---
+
+# Take-home submission (TASK.md)
+
+Follow these requirements for all code and documentation work in this repository.
+
+## Allowed tools
+
+Search engines and AI assistants are **encouraged**. Record every substantive tool in `docs/TOOL.md` (or the project’s designated tool list): for each entry, state **what problem it solved** and **usage scenario or key steps**. Include IDE, AI tools, search, and notable npm dependencies.
+
+## Code
+
+- Write **code comments in English**.
+- Deliver a **complete, working** solution; **`npm run dev` must start successfully**.
+- Prefer aligning implementation with **`README.md` challenge goals** (UI behavior, bugs, persistence, TypeScript, responsive & accessible UI).
+
+## Documentation (English)
+
+- Maintain **`REFLECTION.md`**: describe **which bugs were fixed** (concrete) and **how performance was optimized** (methods and tradeoffs).
+- Do not invent submission artifacts; update them as work completes.
+
+## AI usage record
+
+- Preserve **full, unedited** transcripts of AI-assisted work (no summarizing in place of the original).
+- Store them as **`docs/AI_LOG.md`** and/or exported text/screenshots, per task instructions.
+
+## Submission expectations (human workflow)
+
+- **Fork** the upstream repo to your own GitHub; keep a **public, accessible** repository URL for hand-in.
+- Package code and docs as required by the employer; ensure the repo reflects the final state.
