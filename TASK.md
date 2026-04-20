@@ -1,38 +1,39 @@
-娄洁瑞，您好：
+Hello, Ms. Lou Jierui,
 
-感谢参与Gekko Lab的前端开发岗位笔试环节，请根据仓库中的 `README.md`要求完成任务，并按规范提交材料。
+Thank you for participating in the take-home assignment for the Frontend Developer position at Gekko Lab. Please complete the tasks according to the requirements in `README.md` in this repository, and submit your materials following the guidelines below.
 
-**仓库地址**
-GitHub - Mowmowj/personal_resource_hub
+**Repository**
+- GitHub - Mowmowj/personal_resource_hub
 
-**允许与鼓励使用的工具**
-- 鼓励使用搜索工具与各类 AI 工具（例如 ChatGPT、Copilot、Cursor、Claude 等）
-- 可使用任何开发相关软件与工具链，只需按要求记录
+**Allowed and encouraged tools**
+- You are encouraged to use search tools and AI tools (e.g., ChatGPT, Copilot, Cursor, Claude, etc.).
+- You may use any development software and toolchain, as long as you record them as required.
 
-**提交内容要求**
-1. 代码提交要求
-- Fork 项目到自己的Github仓库
-- 代码注释和文档请使用英语撰写 ++
-- 完成后的项目代码
-- 确保能通过 `npm run dev` 正常启动
+**Submission requirements**
 
-2. 文档提交
-- 更新 `REFLECTION.md`，并补充以下内容：
-- 修复了哪些 Bug（具体说明）
-- 如何优化了性能（方法与取舍）
+1. Code submission
+- Fork the project to your own GitHub account.
+- Please write code comments and documentation in English.
+- Submit the completed project code.
+- Ensure the project can start successfully with `npm run dev`.
 
-3. 工具与软件使用清单（必须提供）
-- 列出所有使用过的软件与工具（例如：IDE、AI 工具、搜索引擎、代码引用的外部依赖包）
-- 每个工具对应说明：
-- 解决了什么问题
-- 使用场景或关键步骤
+2. Documentation
+- Update `REFLECTION.md` and add:
+  - What bugs you fixed (with concrete details)
+  - How you improved performance (methods and tradeoffs)
 
-4. AI 使用记录
-- 提供与 AI 的完整对话记录（原文，不要删改）
-- 形式可为：
-- 导出文件（截图或文本）
-- 独立的 `AI_LOG.md`
+3. Tools and software list (required)
+- List all software and tools you used (e.g., IDE, AI tools, search engines, external dependency packages referenced by the code).
+- For each tool, describe:
+  - What problem it solved
+  - The usage scenario or key steps
 
-**提交方式**
-- 将代码与文档打包
-- 提供可访问的 Git 仓库地址
+4. AI usage log
+- Provide the complete raw conversation with the AI (do not delete or edit).
+- You can submit it as:
+  - An exported file (screenshots or text), or
+  - A standalone `AI_LOG.md`
+
+**How to submit**
+- Package the code and documentation
+- Provide a publicly accessible Git repository link

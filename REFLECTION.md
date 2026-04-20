@@ -16,7 +16,16 @@
   - Reduced unnecessary work in filtering by normalizing the search query once (`trim().toLowerCase()`) and short-circuiting early when the query is empty.
   - Filter is now a single computed pipeline (category first, then search), keeping work proportional to the active dataset and leveraging Vue computed caching.
   - Added a bounded, JSON-safe conversion layer for LocalStorage writes: circular references are detected (no infinite recursion) and a depth limit prevents worst-case deep object traversal from freezing the UI.
+  - Eliminated an unreliable external dependency in the critical path by self-hosting fonts:
+    - Removed the Google Fonts `@import` from `src/style.css` (previously could trigger `net::ERR_BLOCKED_BY_ORB` / CORB issues and show up in the critical request chain).
+    - Added local `woff2` font assets under `public/fonts/` and declared them via `@font-face` with `font-display: swap` and a constrained `unicode-range` to keep files small and predictable.
+    - Preloaded the two local font files in `index.html` (`rel="preload" as="font" type="font/woff2" crossorigin`) to reduce first-render font latency.
+  - Established production performance baselines (build + preview) with reproducible trace artifacts and documented results in `docs/Performance.md`:
+    - `docs/perf/trace-prod-desktop.json.gz` (desktop cold load)
+    - `docs/perf/trace-prod-mobile-throttled.json.gz` (mobile viewport + Fast 3G + CPU 4x)
+    - `docs/perf/trace-prod-interaction-search.json.gz` (search typing interaction; INP breakdown)
 
 - Tradeoffs:
   - Search uses simple substring matching (case-insensitive) for predictability and low overhead; it does not include fuzzy matching or ranking, which could improve relevance but would add complexity and runtime cost.
   - LocalStorage serialization favors resilience over perfect fidelity: functions and symbols are stored as tagged placeholders (not revived), and values that exceed depth limits or include cycles are replaced with sentinel tags. This keeps persistence stable and predictable, at the cost of losing some information for highly complex objects.
+  - Self-hosted fonts add a small amount of static asset weight and maintenance overhead (keeping fonts updated, choosing weights). This is traded for removing cross-origin fragility and making performance behavior more consistent across environments.

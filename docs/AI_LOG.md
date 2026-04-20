@@ -1,36 +1,88 @@
-## AI Log (unedited transcript)
+# AI_LOG Summary (from `docs/AI_LOG/`)
 
-### 2026-04-18
+> This file is a **summary and index** of the exported Cursor conversation logs under `docs/AI_LOG/`, so you can quickly trace **what was done / why it was done / where the artifacts are**.  
+> For the full verbatim transcripts, see the corresponding files below (each entry is linked by path).
 
-User:
-`完成 @README.md 中任务1`
+## Theme Overview (high-signal outcomes)
 
-Assistant:
-`我先快速读一下 README.md 里的“任务1”具体要求，以及仓库里和提交规范相关的规则文件；然后定位对应代码位置（大概率在 src/），完成实现并本地跑一下（你这边 npm run dev 已在跑，我会尽量复用并做必要的检查）。`
+- **README task delivery (1→5)**
+  - **Task 1**: Implement the missing UI behaviors (search, empty state), and fill in missing resource type fields; provide acceptance criteria and local verification steps.
+  - **Task 2**: Investigate and fix category filtering not working / not updating the list (including hypotheses about root cause and build/lint verification notes).
+  - **Task 3**: `useLocalStorage` safe serialization (recursive handling, circular references, depth limit, complex type encoding/revival) + reflection updates.
+  - **Task 4**: Improve TypeScript type-safety (remove `any`/`as any`, then remove `unknown`, replace with generics + explicit unions) + reflection updates.
+  - **Task 5**: Responsive layout and accessibility (skip link, semantic landmarks, aria, focus-visible, overflow handling, etc.) + lint/build verification.
 
-Assistant:
-`我已经确认 README.md 的任务1是：补齐缺失的 UI 行为（搜索与空状态）。接下来我会查看相关组件（SearchBar/Sidebar/ResourceCard）和数据结构，然后在 App.vue 里把过滤逻辑补全，并在列表为空时渲染一个友好的空结果提示。`
+- **Testing and engineering**
+  - **Vitest robustness tests**: Test `useLocalStorage` (the only exported function) under `jsdom + effectScope`, covering boundaries/fault tolerance/complex types; add npm scripts and configuration.
+  - **Test “error” fixes**: Narrow “it looks like a test failure, but it’s actually TS/lint diagnostics” down to better type annotations in tests (e.g., `Set<number>`, avoiding literal-type lock-in).
 
-Assistant:
-`接下来我会做两件事：先把 ResourceItem 的类型补齐到和现有 UI/数据一致（否则搜索/渲染会有 TS 隐患），再在 App.vue 里实现“按标题/标签搜索 + 无结果空状态”的 UI，并顺手修掉当前分类过滤不随点击更新的问题（它会直接影响任务1的体验）。`
+- **Performance analysis and fixes**
+  - Use **Chrome DevTools MCP** and **browser-tools-mcp** (limited by extension context) to trace `http://localhost:5173/`, persist evidence, and output `docs/Performance.md`.
+  - For **Google Fonts being blocked by ORB/CORB**: implement font self-hosting + preload, add prod desktop/mobile-throttled/interaction traces as baselines, and write the change summary into `REFLECTION.md`.
 
-Assistant:
-`我现在开始落地实现：先把 src/types/resource.ts 补齐字段（让“按标签搜索/渲染标签”有类型依据），然后改 src/App.vue 的过滤逻辑为“分类 + 搜索词”共同生效，并在结果为 0 时展示空状态（含清空搜索/返回 All 的快捷操作）。`
+- **Tools / rules / docs**
+  - Compile the “software & tools list” required by `TASK.md`, and merge user additions into `docs/TOOL.md` (e.g., Yuanbao search, Chrome, not using Vue DevTools, etc.).
+  - Translate `docs/WORK.md`, `docs/Performance.md`, and `TASK.md` to English and overwrite the originals (also remove duplicated sections and patch artifacts in `Performance.md`).
+  - Compare two commits and update `REFLECTION.md` to align with the spec (record AI usage by pointing to `docs/AI_LOG.md`).
 
-Assistant:
-`核心 UI 行为已经补上了：搜索会同时匹配标题与标签，且和分类过滤叠加生效；当没有结果时会显示空状态并提供“一键清空/重置”。接下来我会跑一下当前改动的类型检查/lint，确保 npm run dev 不会被 TS 或 ESLint 卡住，然后把工具清单和 AI 记录按要求补齐到 docs/TOOL.md、docs/AI_LOG.md。`
+## File Index (per-log summary)
 
-User:
-`完成 @README.md 中任务2`
+> Note: The files below contain the verbatim exported conversations; this index keeps only **key conclusions and artifact pointers**.
 
-Assistant:
-`我先读一下 README.md 里“任务2”的具体要求与验收标准，同时读取提交规范（.cursor/rules/take-home-submission.mdc），然后在代码里完成对应功能并本地跑起来验证。`
+- **`docs/AI_LOG/cursor_task_requirements_and_questions.md`**
+  - **What it contains**: Based on `README.md` / `TASK.md`, compile a “software and tools used” list (paste-ready), and clarify that AI conversation logs should be recorded in `docs/AI_LOG.md`.
 
-Assistant:
-`我接下来会定位“分类筛选不生效/不更新列表”的触发链路（Sidebar 选中分类 → 状态存储 → 资源列表过滤），复现后把数据流改成单向、可追踪的方式（通常是把选中分类提升到 App.vue 并用 props/emit 传递），然后在 npm run dev 下手动验证。`
+- **`docs/AI_LOG/cursor_1_readme_md.md`**
+  - **What it contains**: Complete README Task 1 (search + empty state).
+  - **Key points**: Search matches titles and tags and composes with category filtering; show an empty state with quick actions when no results; fill in `src/types/resource.ts` fields; record lint/build/dev verification; update `REFLECTION.md` per rules, then append the conversation to AI_LOG.
 
-Assistant:
-`我看到当前 App.vue/Sidebar.vue 的数据流表面上是对的，所以这个“分类筛选不更新列表”的 bug 很可能出在：useLocalStorage 返回值不够响应式、或资源的 tags/category 字段实际不匹配（比如大小写/字段名）。我先把本地存储 hook 和 mock 数据读出来，确认真实数据结构与响应式链路。`
+- **`docs/AI_LOG/cursor_ui_behavior_implementation_for_t.md`**
+  - **What it contains**: Explain what “missing UI behaviors (search, empty state)” means for Task 1 and the expected acceptance scenarios; record the action of appending the transcript into AI_LOG.
 
-Assistant:
-`我会用一个“低风险但很可能就是根因”的修复：把侧边栏分类按钮明确设为 type="button"，避免在任何表单/容器场景下被当成 submit 导致状态更新后又被刷新/重置，从而表现为“选了分类但列表没变”。改完后我再跑一下本地构建/类型检查，确保没有副作用。`
+- **`docs/AI_LOG/cursor_task_1_category_filtering_elemen.md`**
+  - **What it contains**: Identify which UI element corresponds to “category filtering” in Task 1.
+  - **Conclusion**: Category filtering maps to the `Categories` buttons in the left `Sidebar` (the sidebar may not be visible on narrow screens).
+
+- **`docs/AI_LOG/cursor_task_2_in_readme_md.md`**
+  - **What it contains**: Complete README Task 2 (category filtering bug).
+  - **Key points**: Trace the state flow from `Sidebar` → `App.vue`; apply a low-risk fix (explicit `type="button"` on category buttons) and record build + documentation sync.
+
+- **`docs/AI_LOG/cursor_task_3_completion_in_readme_md.md`**
+  - **What it contains**: Complete README Task 3 (LocalStorage safe serialization).
+  - **Key points**: Recursive JSON-safe conversion, circular-reference sentinels, depth limit, complex types (Date/Map/Set/RegExp/Error/BigInt/NaN/Infinity, etc.) encoding and reviver restoration; write the change summary into `REFLECTION.md`.
+
+- **`docs/AI_LOG/cursor_task_4_completion_in_readme_md.md`**
+  - **What it contains**: Complete README Task 4 (TypeScript type safety).
+  - **Key points**: Remove `any/as any` in `useLocalStorage.ts`, then remove `unknown` per request; replace with generics + explicit union types (`EncodedValue/DecodedValue`, etc.); record build/lint passing and reflection updates.
+
+- **`docs/AI_LOG/cursor_task_5_completion_in_readme_md.md`**
+  - **What it contains**: Complete README Task 5 (responsive layout + accessibility).
+  - **Key points**: Breakpoints/overflow/tap targets; skip link, semantic landmarks, aria, focus-visible, reduced screen-reader interruptions; record lint/build passing.
+
+- **`docs/AI_LOG/cursor_vitest_robustness_testing_for_us.md`**
+  - **What it contains**: Add Vitest robustness tests for `useLocalStorage` (jsdom + `effectScope`).
+  - **Artifacts**: Create `src/hooks/useLocalStorage.test.ts` (18 cases); update `vite.config.ts` test configuration and `package.json` scripts; resolve Vite 8 peer issues (upgrade `@vitejs/plugin-vue`).
+
+- **`docs/AI_LOG/cursor_use_local_storage_test_error.md`**
+  - **What it contains**: Fix “errors” in `useLocalStorage.test.ts` (actually TS/lint diagnostics).
+  - **Key points**: Use `new Set<number>()`; avoid `useLocalStorage('ka', 1)` being inferred as the literal type `1` and breaking later assignments (use `1 as number`, etc.); confirm Vitest is green.
+
+- **`docs/AI_LOG/cursor_webpage_performance_analysis_rep.md`**
+  - **What it contains**: Use `user-chrome-devtools` + `user-browser-tools-mcp` to analyze local-page performance and write `docs/Performance.md`, then propose and implement a fix plan.
+  - **Key artifacts**: Traces, Lighthouse reports, and evidence under `docs/perf/`; implement font self-hosting + preload; add prod desktop/mobile-throttled/interaction traces; write change summary into `REFLECTION.md`.
+
+- **`docs/AI_LOG/cursor_.md`**
+  - **What it contains**: Compile the required “software and tools used” list, then merge user additions into `docs/TOOL.md`.
+  - **Additions**: Vue DevTools not used; Yuanbao search used; local software Chrome used; map the performance MCP usage to evidence in `docs/Performance.md`.
+
+- **`docs/AI_LOG/cursor_importing_mcp_from_github.md`**
+  - **What it contains**: Add GitHub `browser-tools-mcp` into `c:\Users\14227\.cursor\mcp.json`.
+  - **Key points**: Fix bracket/JSON validity issues first, then add the MCP config; note the need to restart Cursor and run the server separately.
+
+- **`docs/AI_LOG/cursor_document_translation_and_replace.md`**
+  - **What it contains**: Translate `docs/WORK.md`, `docs/Performance.md`, and `TASK.md` to English and overwrite the originals.
+  - **Key points**: Also remove duplicated sections and leftover patch artifacts in `docs/Performance.md`.
+
+- **`docs/AI_LOG/cursor_commit_comparison_and_reflection.md`**
+  - **What it contains**: Compare differences between two commits in `REFLECTION.md` structure and update reflection writing accordingly.
+  - **Conclusion**: Move AI prompt logging out of `REFLECTION.md` (template placeholder) and point AI usage to `docs/AI_LOG.md` instead (traceable without breaking the reflection structure).
